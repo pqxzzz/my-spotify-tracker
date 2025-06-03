@@ -13,7 +13,7 @@ export default function LoginWithSpotify() {
     }
 
     // here's the URL that will redirect to callback with the code
-    const spotifyAuthUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&redirect_uri=http://localhost:3000/callback&scope=user-read-private user-read-email`;
+    const spotifyAuthUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&redirect_uri=http://localhost:3000/callback&scope=user-read-private user-read-email user-top-read`;
 
     router.push(spotifyAuthUrl);
   };

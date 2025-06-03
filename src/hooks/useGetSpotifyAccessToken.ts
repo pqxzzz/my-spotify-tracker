@@ -9,15 +9,24 @@ export function useGetSpotifyAccessToken(code: string) {
     queryKey: ["spotifyAccessToken"],
     queryFn: async () => {
       const data = await getAccessToken(code);
-      // Store the access token in a separate query key for easy access
+      // Store the access token in localStorage
+      localStorage.setItem("spotifyAccessToken", data.access_token);
+      // Also store in React Query cache for immediate access
       queryClient.setQueryData(["accessToken"], data.access_token);
       return data;
     }
   });
 }
 
-// New hook to access the token from anywhere
+// Hook to access the token from anywhere
 export function useAccessToken(): string | undefined {
   const queryClient = useQueryClient();
-  return queryClient.getQueryData<string>(["accessToken"]);
+  // First try to get from React Query cache
+  const cachedToken = queryClient.getQueryData<string>(["accessToken"]);
+  if (cachedToken) return cachedToken;
+  // If not in cache, try to get from localStorage
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("spotifyAccessToken") || undefined;
+  }
+  return undefined;
 }
