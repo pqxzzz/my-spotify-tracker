@@ -6,5 +6,6 @@ export async function fetchSpotifyProfile(accessToken: string) {
       Authorization: `Bearer ${accessToken}`
     }
   });
+  console.log(response.data);
   return response.data;
 }

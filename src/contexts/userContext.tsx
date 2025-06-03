@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 
-// create a type for the user data
 interface UserContextType {
   country: string;
   display_name: string;
@@ -29,19 +28,29 @@ interface UserContextType {
   type: string;
   uri: string;
 }
-// create a type for the provider for the user data
 interface UserContextProviderProps {
   children: ReactNode;
 }
 
-// create a context for the user data
-const UserContext = createContext<UserContextType | null>(null);
+const UserContext = createContext<{
+  userData: UserContextType | null;
+  setUserData: (userData: UserContextType | null) => void;
+} | null>(null);
 
-// create a provider for the user data
 export function UserContextProvider({ children }: UserContextProviderProps) {
   const [userData, setUserData] = useState<UserContextType | null>(null);
 
   return (
-    <UserContext.Provider value={userData}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ userData, setUserData }}>
+      {children}
+    </UserContext.Provider>
   );
+}
+
+export function useUser() {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUser must be used within a UserContextProvider");
+  }
+  return context;
 }
