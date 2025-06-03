@@ -13,10 +13,13 @@ export async function fetchSpotifyProfile(accessToken: string) {
 export async function getTopTracks(
   accessToken: string,
   timeRange: string = "short_term",
-  limit: number = 10
+  limit: number = 10,
+  page: number = 1
 ) {
   const response = await axios.get(
-    `https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}&limit=${limit}&offset=0`,
+    `https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}&limit=${limit}&offset=${
+      (page - 1) * limit
+    }`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`

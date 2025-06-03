@@ -68,7 +68,8 @@ export type SpotifyTopTracksResponse = {
 
 export function useGetSpotifyTopTracks(
   timeRange: string = "short_term",
-  limit: number = 10
+  limit: number = 10,
+  page: number = 1
 ) {
   const accessToken = useAccessToken();
 
@@ -77,7 +78,7 @@ export function useGetSpotifyTopTracks(
   }
 
   return useQuery<SpotifyTopTracksResponse>({
-    queryKey: ["spotifyTopTracks", timeRange, limit],
-    queryFn: () => getTopTracks(accessToken, timeRange, limit)
+    queryKey: ["spotifyTopTracks", timeRange, limit, page],
+    queryFn: () => getTopTracks(accessToken, timeRange, limit, page)
   });
 }

@@ -6,61 +6,51 @@ import { useGetSpotifyTopTracks } from "@/hooks/useGetSpotifyTopTracks";
 import { TopTable } from "./TopTable";
 import { useGetSpotifyTopArtists } from "@/hooks/useGetSpotifyTopArtists";
 import { CustomPagination } from "./CustomPagination";
+import timeRangeTranslation from "@/lib/helper";
+import { TableSkeleton } from "./skeletons/TableSkeleton";
 
 export default function MainSection() {
   const [timeRange, setTimeRange] = useState<string>("short_term");
-  const [limit, setLimit] = useState<number>(20);
+  const [limit, setLimit] = useState<number>(10);
+  const [page, setPage] = useState<number>(1);
   const { data: profile, isLoading: isProfileLoading } = useSpotifyProfile();
   const [selectedTab, setSelectedTab] = useState<string>("tracks");
   const { data: topTracks, isLoading: isLoadingTopTracks } =
-    useGetSpotifyTopTracks(timeRange, limit);
+    useGetSpotifyTopTracks(timeRange, limit, page);
   const { data: topArtists, isLoading: isLoadingTopArtists } =
     useGetSpotifyTopArtists(timeRange, limit);
 
   if (isProfileLoading || !profile) {
-    return <div>Loading...</div>;
+    return <TableSkeleton />;
   }
 
-  console.log(topArtists);
+  const handleTimeRangeChange = () => {
+    // TODO: mudar o jeito de trocar o time range
+    if (timeRange === "short_term") {
+      setTimeRange("medium_term");
+    } else if (timeRange === "medium_term") {
+      setTimeRange("long_term");
+    } else {
+      setTimeRange("short_term");
+    }
+    setPage(1);
+  };
 
   return (
     <div className="flex flex-col h-full px-5 py-2">
-      <div className="grid grid-cols-3 gap-5 mt-5">
-        <Button onClick={() => setSelectedTab("tracks")}>
-          <p
-            className={`text-sm ${
-              selectedTab === "tracks"
-                ? "text-spotify-green"
-                : "text-spotify-light-gray"
-            }`}
+      <div>
+        <h1 className="text-lg font-semibold">
+          Top tracks{" "}
+          <span
+            className="text-spotify-green underline"
+            onClick={handleTimeRangeChange}
           >
-            Tracks
-          </p>
-        </Button>
-        <Button onClick={() => setSelectedTab("artists")}>
-          <p
-            className={`text-sm ${
-              selectedTab === "artists"
-                ? "text-spotify-green"
-                : "text-spotify-light-gray"
-            }`}
-          >
-            Artists
-          </p>
-        </Button>
-        <Button onClick={() => setSelectedTab("albums")}>
-          <p
-            className={`text-sm ${
-              selectedTab === "albums"
-                ? "text-spotify-green"
-                : "text-spotify-light-gray"
-            }`}
-          >
-            Albums
-          </p>
-        </Button>
+            {timeRangeTranslation(timeRange)}
+          </span>
+        </h1>
       </div>
-      <div className="mt-5">
+      <div className="mt-5 flex flex-col gap-2">
+        {isLoadingTopTracks && <TableSkeleton />}
         {topTracks && (
           <TopTable selectedTab={selectedTab} topTracks={topTracks} />
         )}
@@ -68,6 +58,8 @@ export default function MainSection() {
           total={topTracks?.total ?? 0}
           limit={limit}
           setLimit={setLimit}
+          setPage={setPage}
+          page={page}
         />
       </div>
     </div>
