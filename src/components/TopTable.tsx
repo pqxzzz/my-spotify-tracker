@@ -17,14 +17,18 @@ export function TopTable({
   selectedTab: string;
   topTracks: SpotifyTopTracksResponse;
 }) {
-  console.log(topTracks);
   return (
     <div>
       <Table>
         <TableBody className="text-white">
           {topTracks.items.map((track) => (
             <div key={track.id}>
-              <TableRow className="py-2 px-4 hidden lg:flex">
+              <TableRow className="px-4 hidden lg:flex items-center justify-start">
+                <TableCell className="w-10 h-10 flex items-center justify-center">
+                  <p className="text-lg font-bold text-spotify-green w-full">
+                    #{topTracks.items.indexOf(track) + 1}
+                  </p>
+                </TableCell>
                 <TableCell>
                   <Image
                     src={
@@ -38,10 +42,16 @@ export function TopTable({
                     height={40}
                   />
                 </TableCell>
-                <TableCell className="font-medium">{track.name}</TableCell>
-                <TableCell>{track.artists[0].name}</TableCell>
-                <TableCell className="hidden lg:flex">
-                  {track.album.name}
+                <TableCell className="font-medium text-lg flex gap-5 justify-between w-full">
+                  <div className="flex flex-col gap-1 w-full">
+                    <p className="text-lg font-semibold">{track.name}</p>
+                    <p className="text-sm text-spotify-light-gray">
+                      {track.artists[0].name}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-1 w-full">
+                    <p className="text-sm">{track.album.name}</p>
+                  </div>
                 </TableCell>
               </TableRow>
               <TableRow className="px-4 flex lg:hidden">

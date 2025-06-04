@@ -4,7 +4,8 @@ import { Header } from "@/components/Header";
 import { TableSkeleton } from "@/components/skeletons/TableSkeleton";
 import { TopArtistsTable } from "@/components/tables/TopArtistsTable";
 import { useGetSpotifyTopArtists } from "@/hooks/useGetSpotifyTopArtists";
-import timeRangeTranslation from "@/lib/helper";
+import { timeRangeTranslation } from "@/lib/helper";
+
 import { useState } from "react";
 
 export default function ArtistsPage() {

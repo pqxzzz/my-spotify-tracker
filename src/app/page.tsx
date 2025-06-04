@@ -8,6 +8,8 @@ import { useAccessToken } from "@/hooks/useGetSpotifyAccessToken";
 function HomeContent() {
   const accessToken = useAccessToken();
 
+  console.log("accessToken", accessToken);
+
   return (
     <div className="bg-neutral-800 h-screen text-white">
       {!accessToken ? (

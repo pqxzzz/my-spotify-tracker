@@ -5,9 +5,10 @@ import { useState } from "react";
 import { useGetSpotifyTopTracks } from "@/hooks/useGetSpotifyTopTracks";
 import { TopTable } from "@/components/TopTable";
 import { CustomPagination } from "@/components/CustomPagination";
-import timeRangeTranslation from "@/lib/helper";
+import { extractTop10Tracks, timeRangeTranslation } from "@/lib/helper";
 import { TableSkeleton } from "@/components/skeletons/TableSkeleton";
 import { useRouter } from "next/navigation";
+import { getOpenRouterResponse } from "@/services/openRouter";
 
 export default function TracksPage() {
   const router = useRouter();
@@ -36,6 +37,17 @@ export default function TracksPage() {
     router.push("/");
   }
 
+  const top10Tracks = extractTop10Tracks(topTracks?.items ?? []);
+
+  // TODO: ver pq ta executando varias vezes
+  // const handleGetOpenRouterResponse = async () => {
+  //   const response = await getOpenRouterResponse(
+  //     `Here are my top 10 tracks that i most listened to. Roast my music taste like you’re the funniest, most unhinged friend in the group chat. Be clever, witty, and absolutely savage — no mercy, no filters, but still make it funny, not mean-spirited: ${top10Tracks}`
+  //   );
+  //   console.log(response.choices[0].message.content);
+  // };
+  // handleGetOpenRouterResponse();
+
   return (
     <>
       <Header />
@@ -54,15 +66,17 @@ export default function TracksPage() {
         <div className="mt-5 flex flex-col gap-2">
           {isLoadingTopTracks && <TableSkeleton />}
           {topTracks && (
-            <TopTable selectedTab={selectedTab} topTracks={topTracks} />
+            <>
+              <TopTable selectedTab={selectedTab} topTracks={topTracks} />
+              <CustomPagination
+                total={topTracks?.total ?? 0}
+                limit={limit}
+                setLimit={setLimit}
+                setPage={setPage}
+                page={page}
+              />
+            </>
           )}
-          <CustomPagination
-            total={topTracks?.total ?? 0}
-            limit={limit}
-            setLimit={setLimit}
-            setPage={setPage}
-            page={page}
-          />
         </div>
       </div>
     </>

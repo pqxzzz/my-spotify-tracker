@@ -3,17 +3,20 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "./ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 export function Header() {
+  const router = useRouter();
+
   return (
     <header className="flex items-center justify-between w-full bg-spotify-dark-gray py-5 px-5">
-      <h1 className="text-spotify-green text-2xl font-bold">
-        my stats spotify
-      </h1>
+      <div className="cursor-pointer" onClick={() => router.push("/")}>
+        <h1 className="transition-all duration-300 hover:text-spotify-green text-white text-2xl font-bold">
+          my stats spotify
+        </h1>
+      </div>
 
       <DropdownMenu>
         <DropdownMenuTrigger className="cursor-pointer">
@@ -40,16 +43,7 @@ export function Header() {
               <p>Top Artists</p>
             </button>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <button
-              className="w-full h-full cursor-pointer"
-              onClick={() => {
-                window.location.href = "/albums";
-              }}
-            >
-              <p>Top Albums</p>
-            </button>
-          </DropdownMenuItem>
+
           <DropdownMenuItem>
             <button
               className="w-full h-full cursor-pointer"
