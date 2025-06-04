@@ -32,16 +32,31 @@ interface UserContextProviderProps {
   children: ReactNode;
 }
 
+interface userFavorites {
+  shortTermTopTracks?: string;
+  mediumTermTopTracks?: string;
+  longTermTopTracks?: string;
+  shortTermTopArtists?: string;
+  mediumTermTopArtists?: string;
+  longTermTopArtists?: string;
+}
+
 const UserContext = createContext<{
   userData: UserContextType | null;
   setUserData: (userData: UserContextType | null) => void;
+  userFavorites: userFavorites | null;
+  setUserFavorites: (userFavorites: userFavorites | null) => void;
 } | null>(null);
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
   const [userData, setUserData] = useState<UserContextType | null>(null);
-
+  const [userFavorites, setUserFavorites] = useState<userFavorites | null>(
+    null
+  );
   return (
-    <UserContext.Provider value={{ userData, setUserData }}>
+    <UserContext.Provider
+      value={{ userData, setUserData, userFavorites, setUserFavorites }}
+    >
       {children}
     </UserContext.Provider>
   );

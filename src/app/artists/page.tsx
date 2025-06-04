@@ -31,11 +31,11 @@ export default function ArtistsPage() {
     <>
       <Header />
       <div className="flex flex-col h-full px-5 py-2">
-        <div>
-          <h1 className="text-lg font-semibold text-white">
+        <div className="py-5">
+          <h1 className="text-xl lg:text-2xl font-semibold text-white">
             Top artists{" "}
             <span
-              className="text-spotify-green hover:text-spotify-green/80 hover:underline cursor-pointer"
+              className="text-spotify-green hover:text-spotify-green/80 underline cursor-pointer"
               onClick={handleTimeRangeChange}
             >
               {timeRangeTranslation(timeRange)}

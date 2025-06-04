@@ -5,7 +5,7 @@ export function timeRangeTranslation(timeRange: string) {
     case "medium_term":
       return "last 6 months";
     case "long_term":
-      return "all time";
+      return "last 12 months";
   }
 }
 

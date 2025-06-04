@@ -30,8 +30,8 @@ export function useAccessToken(): string | undefined | null {
       "localStorage.getItem('spotifyAccessToken')",
       localStorage.getItem("spotifyAccessToken")
     );
-    return null;
-    // return localStorage.getItem("spotifyAccessToken") || undefined;
+    // return null;
+    return localStorage.getItem("spotifyAccessToken") || undefined;
   }
 
   return undefined;

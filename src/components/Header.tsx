@@ -1,3 +1,4 @@
+"use client";
 import { MenuIcon } from "lucide-react";
 import {
   DropdownMenu,
@@ -11,7 +12,7 @@ export function Header() {
   const router = useRouter();
 
   return (
-    <header className="flex items-center justify-between w-full bg-spotify-dark-gray py-5 px-5">
+    <header className="flex items-center justify-between w-full bg-spotify-dark-gray py-5 px-5 lg:px-64">
       <div className="cursor-pointer" onClick={() => router.push("/")}>
         <h1 className="transition-all duration-300 hover:text-spotify-green text-white text-2xl font-bold">
           my stats spotify
@@ -27,7 +28,7 @@ export function Header() {
             <button
               className="w-full h-full cursor-pointer"
               onClick={() => {
-                window.location.href = "/tracks";
+                router.push("/tracks");
               }}
             >
               <p>Top Tracks</p>
@@ -37,10 +38,20 @@ export function Header() {
             <button
               className="w-full h-full cursor-pointer"
               onClick={() => {
-                window.location.href = "/artists";
+                router.push("/artists");
               }}
             >
               <p>Top Artists</p>
+            </button>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <button
+              className="w-full h-full cursor-pointer hover:text-orange-600"
+              onClick={() => {
+                router.push("/roast");
+              }}
+            >
+              <p>Roast me</p>
             </button>
           </DropdownMenuItem>
 
