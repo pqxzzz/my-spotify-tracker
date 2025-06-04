@@ -83,7 +83,7 @@ export function CustomPagination({
         )}
         {currentPage + 3 < totalPages && (
           <PaginationItem>
-            <PaginationEllipsis />
+            <PaginationEllipsis className="text-white" />
           </PaginationItem>
         )}
         {currentPage < totalPages && (

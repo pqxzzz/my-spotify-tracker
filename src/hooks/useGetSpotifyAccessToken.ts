@@ -21,12 +21,22 @@ export function useGetSpotifyAccessToken(code: string) {
 // Hook to access the token from anywhere
 export function useAccessToken(): string | undefined {
   const queryClient = useQueryClient();
+
   // First try to get from React Query cache
   const cachedToken = queryClient.getQueryData<string>(["accessToken"]);
   if (cachedToken) return cachedToken;
+
   // If not in cache, try to get from localStorage
   if (typeof window !== "undefined") {
-    return localStorage.getItem("spotifyAccessToken") || undefined;
+    const token = localStorage.getItem("spotifyAccessToken");
+    if (token) {
+      // Update React Query cache with the token from localStorage
+      queryClient.setQueryData(["accessToken"], token);
+      return token;
+    }
   }
+
+  // If no token is found, clear any stale data in the cache
+  queryClient.clear();
   return undefined;
 }

@@ -34,7 +34,8 @@ export type SpotifyTopArtistsResponse = {
 
 export function useGetSpotifyTopArtists(
   timeRange: string = "short_term",
-  limit: number = 10
+  limit: number = 10,
+  page: number = 1
 ) {
   const accessToken = useAccessToken();
 
@@ -43,7 +44,7 @@ export function useGetSpotifyTopArtists(
   }
 
   return useQuery<SpotifyTopArtistsResponse>({
-    queryKey: ["spotifyTopArtists", timeRange, limit],
-    queryFn: () => getTopArtists(accessToken, timeRange, limit)
+    queryKey: ["spotifyTopArtists", timeRange, limit, page],
+    queryFn: () => getTopArtists(accessToken, timeRange, limit, page)
   });
 }
